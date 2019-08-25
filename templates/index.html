@@ -1,0 +1,111 @@
+{% extends "layout.html" %}
+{% block title %}
+ Home
+{% endblock %}
+{% block content %}
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+      <li data-target="#myCarousel" data-slide-to="3"></li>
+    </ol>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="../static/image1carousel.jpg" class="d-block w-100">
+        <div class="container">
+          <div class="carousel-caption">
+            <h1>Add Text</h1>
+            <p>Text</p>
+            <p><a class="btn btn-lg btn-info" href="weekendtrips" role="button">Ask A Question Now</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="../static/image2carousel.jpg" class="d-block w-100">
+        <div class="container">
+          <div class="carousel-caption">
+            <h1>Add Text</h1>
+            <p>Text</p>
+            <p><a class="btn btn-lg btn-info" href="ladakh" role="button">Ask A Question Now</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="../static/image3carousel.jpg" class="d-block w-100">
+        <div class="container">
+          <div class="carousel-caption">
+            <h1>Add Text</h1>
+            <p>Text</p>
+            <p><a class="btn btn-lg btn-info" href="trips/spitivalley" role="button">Ask A Question Now</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="../static/image4carousel.jpg" class="d-block w-100">
+        <div class="container">
+          <div class="carousel-caption">
+            <h1>Add Text</h1>
+            <p>Text</p>
+            <p><a class="btn btn-lg btn-info" href="trips/bhutan" role="button">Log In</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+
+  <div id="content" class="container">
+    <section class="jumbotron text-center custom-row my-5 jumbotron-little-padding">
+        <div class="container">
+            <h1 class="my-5 thickfont text-center text-info">POPULAR TRIPS</h1>
+        </div>
+    </section>
+    <!-- TODO CARDS BASED ON JSON -->
+    <div class="dropdown-divider"></div>
+    <section class="jumbotron text-center custom-row my-5 jumbotron-little-padding">
+        <div class="container">
+            <h1 class="my-5 thickfont text-center text-info">TESTIMONIALS</h1>
+        </div>
+    </section>
+
+    <div class="container text-center justify-content-center align-items-center">
+      <div class="row">
+        <div class="col">test 1223</div>
+        <div class="col">test 1223</div>
+        <div class="w-100"></div>
+        <div class="col">
+          <div class="customer">
+            <div><img src="../static/testimonial1.jpg" class="img-fluid"></div>
+            <div class="info">
+              <div class="thickfont">test123 </div>
+              <small>test 123</small>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="customer">
+            <div><img src="../static/testimonial2.jpg" class="img-fluid"></div>
+            <div class="info">
+              <div class="thickfont">test123 </div>
+              <small>test123</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dropdown-divider"></div>
+    <section class="jumbotron text-center custom-row my-5 jumbotron-little-padding">
+        <div class="container">
+            <h1 class="my-5 thickfont text-center text-info">test 123</h1>
+        </div>
+    </section>
+  </div>
+{% endblock %}
