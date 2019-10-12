@@ -16,14 +16,14 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route("/ladakh")
-def ladakh():
-    db = sqlite3.connect('static/trips.sql')
+@app.route("/therapists")
+def therapists():
+    db = sqlite3.connect('static/therapists.sql')
     cursor = db.cursor()
-    cursor.execute('''SELECT name,codename,price,location,duration,display_price FROM trips WHERE collection = "Ladakh"''')
+    cursor.execute('''SELECT name,codename,monthly_price,email,website FROM therapists''')
     allDB = cursor.fetchall()
     random.shuffle(allDB)
-    return render_template('collections.html', trips=allDB, collectioname="Ladakh", isladakhactive="thickfont")
+    return render_template('therapist.html', therapist=allDB, pagetitle="Meet The Therapists", ismeetthetherapistsactive="thickfont")
 
 @app.route("/cancellation")
 def cancellation():
@@ -36,7 +36,7 @@ def others():
     cursor.execute('''SELECT name,codename,price,location,duration,display_price FROM trips WHERE collection = "Others"''')
     allDB = cursor.fetchall()
     random.shuffle(allDB)
-    return render_template('collections.html', trips=allDB, collectioname="Others", isothersactive="thickfont")
+    return render_template('page.html', trips=allDB, pagetitle="Others", isothersactive="thickfont")
 
 @app.route("/bali")
 def bali():
@@ -45,15 +45,23 @@ def bali():
     cursor.execute('''SELECT name,codename,price,location,duration,display_price FROM trips WHERE collection = "Bali"''')
     allDB = cursor.fetchall()
     random.shuffle(allDB)
-    return render_template('collections.html', trips=allDB, collectioname="Bali", isbaliactive="thickfont")
+    return render_template('page.html', trips=allDB, pagetitle="Bali", isbaliactive="thickfont")
 
 @app.route("/contactus")
 def contactus():
     return render_template('contactus.html')
 
-@app.route("/contiki")
-def contiki():
-    return render_template('contiki.html', iscontikiactive="thickfont")
+@app.route("/ask")
+def ask():
+    return render_template('ask.html', isaskactive="thickfont")
+
+@app.route("/answered")
+def answered():
+    return render_template('ask.html', isaskactive="thickfont")
+
+@app.route("/asked")
+def asked():
+    return render_template('asked.html', isaskedactive="thickfont")
 
 @app.route("/weekendtrips")
 def weekendtrips():
@@ -62,7 +70,7 @@ def weekendtrips():
     cursor.execute('''SELECT name,codename,price,location,duration,display_price FROM trips WHERE collection = "Weekend Getaways"''')
     allDB = cursor.fetchall()
     random.shuffle(allDB)
-    return render_template('collections.html', trips=allDB, collectioname="Weekend Getaways", isweekendgetawayactive="thickfont")
+    return render_template('page.html', trips=allDB, pagetitle="Weekend Getaways", isweekendgetawayactive="thickfont")
 
 @app.route("/privacy")
 def privacy():
