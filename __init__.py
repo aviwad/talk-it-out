@@ -57,7 +57,7 @@ def ask():
 
 @app.route("/answered")
 def answered():
-    return render_template('ask.html', isaskactive="thickfont")
+    return render_template('ask.html', isansweractive="thickfont")
 
 @app.route("/asked")
 def asked():
