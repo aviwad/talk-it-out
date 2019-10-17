@@ -1,6 +1,8 @@
 import random
 import os
 import json
+import datetime
+import uuid
 from flask import (
     flash, g, redirect, render_template, request, url_for, Flask, send_from_directory
 )
@@ -11,6 +13,9 @@ import random
 # Use SQLite3 for the Distro Database
 import sqlite3
 app = Flask(__name__)
+
+swear_text = open("static/swear")
+swears = swear_text.read().strip().split()
 
 @app.route("/")
 def index():
@@ -51,9 +56,28 @@ def bali():
 def contactus():
     return render_template('contactus.html')
 
-@app.route("/ask")
+@app.route("/ask", methods = ['POST','GET'])
 def ask():
-    return render_template('ask.html', isaskactive="thickfont")
+    if request.method == 'POST':
+        db = sqlite3.connect('questionsanswers.sql')
+        cursor = db.cursor()
+        result= request.form
+        if (any(word in result["question"] for word in swears) or any(word in result["name"] for word in swears)):
+            return render_template('ask.html', isaskactive="thickfont",message="NO CUSSES", namevalue=result["name"], questionvalue=result["question"])
+        else:
+            if (len(result["question"]) > 280):
+                return render_template('ask.html', isaskactive="thickfont",message="KEEP LENGTH LESS THAN 280 characters", namevalue=result["name"], questionvalue=result["question"])
+            elif (len(result["question"]) == 0 or len(result["name"]) == 0):
+                return render_template('ask.html', isaskactive="thickfont",message="empty question/name", namevalue=result["name"])
+            elif (len(result["name"]) > 25):
+                return render_template('ask.html', isaskactive="thickfont",message="KEEP NAME LENGTH LESS THAN 25 characters", namevalue=result["name"], questionvalue=result["question"])
+            else:
+                cursor.execute("INSERT INTO questions (name,date,question,'ip address',ID,moderated,answered) VALUES (?,?,?,?,?,?,?)",(result['name'],datetime.datetime.now().strftime('%b/%d/%Y'),result['question'],request.environ.get('HTTP_X_REAL_IP', request.remote_addr),str(uuid.uuid4()),0,0))
+                db.commit()
+                return render_template('ask.html', isaskactive="thickfont",message="ASKED")
+        db.close()
+    else:
+        return render_template('ask.html', isaskactive="thickfont")
 
 @app.route("/answered")
 def answered():

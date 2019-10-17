@@ -1,7 +1,20 @@
 {% extends "layout.html" %}
 {% block title %}
- Home
+ Ask A Question!
 {% endblock %}
 {% block content %}
-<p>404</p>
+<section class="jumbotron mx-5 my-5">
+      <div class="container text-center">
+        <h1 class="jumbotron-heading thickfont text-center text-info">Ask A Question</h1>
+      </div>
+</section>
+<form action="/ask" method="post">
+  Name:<br>
+ <input type="text" name="name" value="{{namevalue}}"><br>
+ Question:<br>
+ <input type="text" name="question" value="{{questionvalue}}">
+ <input type="submit" value="Submit">
+
+</form>
+<h1>{{message}}</h1>
 {% endblock %}
