@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block title %}
+ Ask A Question!
+{% endblock %}
+{% block content %}
+<section class="jumbotron mx-5 my-5">
+      <div class="container text-center">
+        <h1 class="jumbotron-heading thickfont text-center text-info">Ask A Question</h1>
+      </div>
+</section>
+<form action="/login" method="post">
+  Userame:<br>
+ <input type="text" name="username" value="{{namevalue}}"><br>
+ Password:<br>
+ <input type="password" name="password" value="{{passwordvalue}}">
+ <input type="submit" value="Submit">
+
+</form>
+<h1>{{message}}</h1>
+{% endblock %}
