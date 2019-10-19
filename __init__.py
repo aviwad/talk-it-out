@@ -3,16 +3,48 @@ import os
 import json
 import datetime
 import uuid
+from tempfile import mkdtemp
+from flask_session import Session
+from werkzeug.exceptions import default_exceptions
+from werkzeug.security import check_password_hash, generate_password_hash
 from flask import (
-    flash, g, redirect, render_template, request, url_for, Flask, send_from_directory
+    flash, g, redirect, render_template, request, url_for, Flask, send_from_directory, session
 )
-app = Flask(__name__)
 
 # Import random to shuffle distro list
 import random
 # Use SQLite3 for the Distro Database
 import sqlite3
+
 app = Flask(__name__)
+# change secret key in final deployment
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+
+def login_required(f):
+    """
+    Decorate routes to require login.
+    http://flask.pocoo.org/docs/0.12/patterns/viewdecorators/
+    """
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get("user_id") is None:
+            return redirect("/therapistlogin")
+        return f(*args, **kwargs)
+    return decorated_function
+
+@app.after_request
+def after_request(response):
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Expires"] = 0
+    response.headers["Pragma"] = "no-cache"
+    return response
+
+app.config["SESSION_FILE_DIR"] = mkdtemp()
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+#app.config['SECRET_KEY'] = os.urandom(24)
+Session(app)
+
 
 swear_text = open("static/swear")
 swears = swear_text.read().strip().split()
@@ -78,6 +110,42 @@ def ask():
         db.close()
     else:
         return render_template('ask.html', isaskactive="thickfont")
+
+@app.route("/therapistlogin", methods = ['POST','GET'])
+def therapistlogin():
+    if request.method == 'POST':
+        result= request.form
+        # if username or password blank:
+            # error
+        if (len(result["username"]) == 0 or len(result["password"]) == 0):
+            return render_template('therapistlogin.html', message="empty username/password", namevalue=result["username"])
+        session.clear()
+        db = sqlite3.connect('login.sql')
+        cursor = db.cursor()
+        checked = 'remember_me' in request.form
+        cursor.execute("SELECT * FROM login WHERE codename = (?)", [result["username"]])
+        rows = cursor.fetchall()
+        print(rows)
+        if len(rows) != 1 or not check_password_hash(rows[0][2], result["password"]):
+            return render_template('therapistlogin.html', message="incorrect username/password", namevalue=result["username"])
+        session["user_id"] = rows[0][0]
+        if checked:
+            session.permanent = True
+        # give logged in message bootstrap
+        return redirect(url_for("index"))
+        # if username exists in database:
+            # if hash of password is same as password hash in Database
+                # if remember me is True
+                    # set session, login, take to homepage, save session cookie
+                # else:
+                    # set session, login, take to homepage
+            # else:
+                # error, wrong password
+        #else:
+            # error, username doesn't exist
+        db.close()
+    else:
+        return render_template('therapistlogin.html')
 
 @app.route("/answered")
 def answered():
