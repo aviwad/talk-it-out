@@ -5,6 +5,7 @@ import datetime
 import uuid
 from tempfile import mkdtemp
 from flask_session import Session
+from functools import wraps
 from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask import (
@@ -49,9 +50,42 @@ Session(app)
 swear_text = open("static/swear")
 swears = swear_text.read().strip().split()
 
+@app.route("/moderation", methods = ['POST'])
+def moderation():
+    try:
+        if session["user_id"] != "aviwad":
+            return redirect("/therapistlogin")
+        else:
+            print("moderated!")
+    except:
+        return redirect("/therapistlogin")
+    #if request.method == 'POST':
+    #print("moderated!")
+    return redirect(url_for("index"))
+
+@app.route("/answer", methods = ['POST'])
+def answer():
+    if session.get("user_id") is None:
+        return redirect("/therapistlogin")
+    else:
+        print("answered!")
+    #if request.method == 'POST':
+    #print("moderated!")
+    return redirect(url_for("index"))
+
 @app.route("/")
 def index():
-    return render_template('index.html')
+    print(session)
+    if session.get("user_id") is None:
+        return render_template('index.html')
+    else:
+        if session["user_id"] == "aviwad":
+            return render_template('moderatorloggedin.html')
+        else:
+            return render_template('indexloggedin.html', therapistname=session["name"])
+    #return render_template('index.html')
+
+
 
 @app.route("/therapists")
 def therapists():
@@ -125,10 +159,11 @@ def therapistlogin():
         checked = 'remember_me' in request.form
         cursor.execute("SELECT * FROM login WHERE codename = (?)", [result["username"]])
         rows = cursor.fetchall()
-        print(rows)
         if len(rows) != 1 or not check_password_hash(rows[0][2], result["password"]):
             return render_template('therapistlogin.html', message="incorrect username/password", namevalue=result["username"])
         session["user_id"] = rows[0][0]
+        session["name"] = rows[0][1]
+        print(session["user_id"])
         if checked:
             session.permanent = True
         # give logged in message bootstrap
