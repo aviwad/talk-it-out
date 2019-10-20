@@ -52,16 +52,31 @@ swears = swear_text.read().strip().split()
 
 @app.route("/moderation", methods = ['POST'])
 def moderation():
-    try:
+    if request.method == "POST":
+        print("moderating")
+        #try:
         if session["user_id"] != "aviwad":
+            print("different session")
             return redirect("/therapistlogin")
         else:
+            db = sqlite3.connect('questionsanswers.sql')
+            cursor = db.cursor()
+            if "delete" in request.form:
+                print("delete")
+                cursor.execute('''DELETE FROM questions WHERE ID=(?)''',[request.form["delete"]])
+                db.commit()
+                # find row with same ID as request.form["delete"] and delete it
+            else:
+                print("approve")
+
+                # find row with same ID as request.form["approve"] and change moderated to 1
             print("moderated!")
-    except:
-        return redirect("/therapistlogin")
-    #if request.method == 'POST':
-    #print("moderated!")
-    return redirect(url_for("index"))
+            db.close()
+        #except:
+            #print("no sessoin")
+            #return redirect("/therapistlogin")
+        print("moderated!")
+        return redirect(url_for("index"))
 
 @app.route("/answer", methods = ['POST'])
 def answer():
@@ -80,7 +95,12 @@ def index():
         return render_template('index.html')
     else:
         if session["user_id"] == "aviwad":
-            return render_template('moderatorloggedin.html')
+            db = sqlite3.connect('questionsanswers.sql')
+            cursor = db.cursor()
+            cursor.execute('''SELECT * FROM questions WHERE moderated=0''')
+            allDB = cursor.fetchall()
+            allDB.reverse()
+            return render_template('moderatorloggedin.html', questions=allDB)
         else:
             return render_template('indexloggedin.html', therapistname=session["name"])
     #return render_template('index.html')
