@@ -64,13 +64,13 @@ def moderation():
             if "delete" in request.form:
                 print("delete")
                 cursor.execute('''DELETE FROM questions WHERE ID=(?)''',[request.form["delete"]])
-                db.commit()
                 # find row with same ID as request.form["delete"] and delete it
             else:
                 print("approve")
-
+                cursor.execute('''UPDATE questions SET moderated=1 WHERE ID=(?)''',[request.form["approve"]])
                 # find row with same ID as request.form["approve"] and change moderated to 1
             print("moderated!")
+            db.commit()
             db.close()
         #except:
             #print("no sessoin")
