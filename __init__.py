@@ -52,9 +52,8 @@ swears = swear_text.read().strip().split()
 
 @app.route("/moderation", methods = ['POST'])
 def moderation():
-    if request.method == "POST":
-        print("moderating")
-        #try:
+    print("moderating")
+    try:
         if session["user_id"] != "aviwad":
             print("different session")
             return redirect("/therapistlogin")
@@ -72,11 +71,11 @@ def moderation():
             print("moderated!")
             db.commit()
             db.close()
-        #except:
-            #print("no sessoin")
-            #return redirect("/therapistlogin")
-        print("moderated!")
-        return redirect(url_for("index"))
+    except:
+        print("no sessoin")
+        return redirect("/therapistlogin")
+    print("moderated!")
+    return redirect(url_for("index"))
 
 @app.route("/answer", methods = ['POST'])
 def answer():
@@ -84,6 +83,17 @@ def answer():
         return redirect("/therapistlogin")
     else:
         print("answered!")
+        db = sqlite3.connect('questionsanswers.sql')
+        cursor = db.cursor()
+        print("till cursor")
+        # insert answer
+        cursor.execute("INSERT INTO answers ('question ID',answer,name,codename,'ip address',date) VALUES (?,?,?,?,?,?)",(request.form["submit"],request.form["answer"],session["name"],session["user_id"],request.environ.get('HTTP_X_REAL_IP', request.remote_addr),datetime.datetime.now().strftime('%b/%d/%Y')))     #(result['name'],datetime.datetime.now().strftime('%b/%d/%Y'),result['question'],request.environ.get('HTTP_X_REAL_IP', request.remote_addr),str(uuid.uuid4()),0,0))
+        #cursor.execute('''DELETE FROM questions WHERE ID=(?)''',[request.form["delete"]])
+        # update question to answered
+        cursor.execute('''UPDATE questions SET answered=1 WHERE ID=(?)''',[request.form["submit"]])
+            # find row with same ID as request.form["approve"] and change moderated to 1
+        db.commit()
+        db.close()
     #if request.method == 'POST':
     #print("moderated!")
     return redirect(url_for("index"))
@@ -102,7 +112,12 @@ def index():
             allDB.reverse()
             return render_template('moderatorloggedin.html', questions=allDB)
         else:
-            return render_template('indexloggedin.html', therapistname=session["name"])
+            db = sqlite3.connect('questionsanswers.sql')
+            cursor = db.cursor()
+            cursor.execute('''SELECT * FROM questions WHERE moderated=1 AND answered=0''')
+            allDB = cursor.fetchall()
+            allDB.reverse()
+            return render_template('indexloggedin.html', therapistname=session["name"], questions=allDB)
     #return render_template('index.html')
 
 

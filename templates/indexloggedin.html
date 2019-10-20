@@ -10,44 +10,27 @@
             <h1 class="my-5 thickfont text-center text-info">Hi {{therapistname}}</h1>
         </div>
     </section>
-    <!-- TODO CARDS BASED ON JSON -->
-    <div class="dropdown-divider"></div>
-    <section class="jumbotron text-center custom-row my-5 jumbotron-little-padding">
-        <div class="container">
-            <h1 class="my-5 thickfont text-center text-info">TESTIMONIALS</h1>
-        </div>
-    </section>
 
-    <div class="container text-center justify-content-center align-items-center">
-      <div class="row">
-        <div class="col">test 1223</div>
-        <div class="col">test 1223</div>
-        <div class="w-100"></div>
-        <div class="col">
-          <div class="customer">
-            <div><img src="../static/testimonial1.jpg" class="img-fluid"></div>
-            <div class="info">
-              <div class="thickfont">test123 </div>
-              <small>test 123</small>
+    <div class="dropdown-divider"></div>
+
+    <div class="container">
+      <div class="row justify-content-center align-items-center">
+          {% for item in questions %}
+            <div class="card mx-auto my-3 text-center card-shadow" style="width: 22rem;">
+              <div class="card-body">
+                <h5 class="card-title blacklink">{{item[2]}}</h5>
+                <p class="card-text font-weight-bold">Asked by: {{item[0]}}</p>
+                <p class="card-text font-weight-bold">⏰ Date: {{item[1]}}</p>
+              </div>
+              <div class="card-footer">
+                <form action="/answer" method="post">
+                  <input type="text" name="answer" ></input>
+                  <button type="submit" name="submit" value="{{item[4]}}" class="btn btn-info">Submit</button>
+                </form>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="customer">
-            <div><img src="../static/testimonial2.jpg" class="img-fluid"></div>
-            <div class="info">
-              <div class="thickfont">test123 </div>
-              <small>test123</small>
-            </div>
-          </div>
-        </div>
+          {% endfor %}
       </div>
     </div>
-    <div class="dropdown-divider"></div>
-    <section class="jumbotron text-center custom-row my-5 jumbotron-little-padding">
-        <div class="container">
-            <h1 class="my-5 thickfont text-center text-info">test 123</h1>
-        </div>
-    </section>
   </div>
 {% endblock %}
