@@ -52,29 +52,22 @@ swears = swear_text.read().strip().split()
 
 @app.route("/moderation", methods = ['POST'])
 def moderation():
-    print("moderating")
     try:
         if session["user_id"] != "aviwad":
-            print("different session")
             return redirect("/therapistlogin")
         else:
             db = sqlite3.connect('questionsanswers.sql')
             cursor = db.cursor()
             if "delete" in request.form:
-                print("delete")
                 cursor.execute('''DELETE FROM questions WHERE ID=(?)''',[request.form["delete"]])
                 # find row with same ID as request.form["delete"] and delete it
             else:
-                print("approve")
                 cursor.execute('''UPDATE questions SET moderated=1 WHERE ID=(?)''',[request.form["approve"]])
                 # find row with same ID as request.form["approve"] and change moderated to 1
-            print("moderated!")
             db.commit()
             db.close()
     except:
-        print("no sessoin")
         return redirect("/therapistlogin")
-    print("moderated!")
     return redirect(url_for("index"))
 
 @app.route("/answer", methods = ['POST'])
@@ -82,10 +75,8 @@ def answer():
     if session.get("user_id") is None:
         return redirect("/therapistlogin")
     else:
-        print("answered!")
         db = sqlite3.connect('questionsanswers.sql')
         cursor = db.cursor()
-        print("till cursor")
         # insert answer
         cursor.execute("INSERT INTO answers ('question ID',answer,name,codename,'ip address',date) VALUES (?,?,?,?,?,?)",(request.form["submit"],request.form["answer"],session["name"],session["user_id"],request.environ.get('HTTP_X_REAL_IP', request.remote_addr),datetime.datetime.now().strftime('%b/%d/%Y')))     #(result['name'],datetime.datetime.now().strftime('%b/%d/%Y'),result['question'],request.environ.get('HTTP_X_REAL_IP', request.remote_addr),str(uuid.uuid4()),0,0))
         #cursor.execute('''DELETE FROM questions WHERE ID=(?)''',[request.form["delete"]])
@@ -100,7 +91,6 @@ def answer():
 
 @app.route("/")
 def index():
-    print(session)
     if session.get("user_id") is None:
         return render_template('index.html')
     else:
@@ -130,28 +120,6 @@ def therapists():
     allDB = cursor.fetchall()
     random.shuffle(allDB)
     return render_template('therapist.html', therapist=allDB, pagetitle="Meet The Therapists", ismeetthetherapistsactive="thickfont")
-
-@app.route("/cancellation")
-def cancellation():
-    return render_template('cancellation.html')
-
-@app.route("/others")
-def others():
-    db = sqlite3.connect('static/trips.sql')
-    cursor = db.cursor()
-    cursor.execute('''SELECT name,codename,price,location,duration,display_price FROM trips WHERE collection = "Others"''')
-    allDB = cursor.fetchall()
-    random.shuffle(allDB)
-    return render_template('page.html', trips=allDB, pagetitle="Others", isothersactive="thickfont")
-
-@app.route("/bali")
-def bali():
-    db = sqlite3.connect('static/trips.sql')
-    cursor = db.cursor()
-    cursor.execute('''SELECT name,codename,price,location,duration,display_price FROM trips WHERE collection = "Bali"''')
-    allDB = cursor.fetchall()
-    random.shuffle(allDB)
-    return render_template('page.html', trips=allDB, pagetitle="Bali", isbaliactive="thickfont")
 
 @app.route("/contactus")
 def contactus():
@@ -208,7 +176,6 @@ def therapistlogin():
             return render_template('therapistlogin.html', message="incorrect username/password", namevalue=result["username"])
         session["user_id"] = rows[0][0]
         session["name"] = rows[0][1]
-        print(session["user_id"])
         if checked:
             session.permanent = True
         # give logged in message bootstrap
