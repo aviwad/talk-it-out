@@ -180,6 +180,16 @@ def ask():
     else:
         return render_template('ask.html', isaskactive="thickfont")
 
+@app.route("/logout")
+def logout():
+    """Log user out"""
+
+    # Forget any user_id
+    session.clear()
+
+    # Redirect user to login form
+    return redirect(url_for("index"))
+
 @app.route("/therapistlogin", methods = ['POST','GET'])
 def therapistlogin():
     if request.method == 'POST':
@@ -219,11 +229,7 @@ def therapistlogin():
 
 @app.route("/answered")
 def answered():
-    return render_template('ask.html', isansweractive="thickfont")
-
-@app.route("/asked")
-def asked():
-    return render_template('asked.html', isaskedactive="thickfont")
+    return render_template('answered.html', isansweractive="thickfont")
 
 @app.route("/weekendtrips")
 def weekendtrips():
