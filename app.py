@@ -196,7 +196,12 @@ def therapistlogin():
 
 @app.route("/answered")
 def answered():
-    return render_template('answered.html', isansweractive="thickfont")
+    db = sqlite3.connect('questionsanswers.sql')
+    cursor = db.cursor()
+    cursor.execute('''SELECT questions.name,questions.question, answers.answer,answers.name,answers.date,questions.date FROM questions,answers WHERE questions.ID = answers.'question ID' AND questions.answered = 1''')
+    allDB = cursor.fetchall()
+    print(allDB)
+    return render_template('answered.html', isansweractive="thickfont", answered=allDB)
 
 @app.route("/weekendtrips")
 def weekendtrips():
