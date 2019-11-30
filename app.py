@@ -53,7 +53,7 @@ swears = swear_text.read().strip().split()
 @app.route("/moderation", methods = ['POST'])
 def moderation():
     try:
-        if session["user_id"] != "aviwad":
+        if session["user_id"] != "aviwad" or session["user_id"] != "rohan" or session["user_id"] != "eshaan" or session["user_id"] != "aryan":
             return redirect("/therapistlogin")
         else:
             db = sqlite3.connect('questionsanswers.sql')
@@ -94,7 +94,7 @@ def index():
     if session.get("user_id") is None:
         return render_template('index.html')
     else:
-        if session["user_id"] == "aviwad":
+        if session["user_id"] == "aviwad" or session["user_id"] == "rohan" or session["user_id"] == "eshaan" or session["user_id"] == "aryan":
             db = sqlite3.connect('questionsanswers.sql')
             cursor = db.cursor()
             cursor.execute('''SELECT * FROM questions WHERE moderated=0''')
