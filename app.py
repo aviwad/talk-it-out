@@ -100,7 +100,7 @@ def index():
             cursor.execute('''SELECT * FROM questions WHERE moderated=0''')
             allDB = cursor.fetchall()
             allDB.reverse()
-            return render_template('moderatorloggedin.html', questions=allDB)
+            return render_template('moderatorloggedin.html', questions=allDB, moderatorname=session["name"])
         else:
             db = sqlite3.connect('questionsanswers.sql')
             cursor = db.cursor()
