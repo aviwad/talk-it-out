@@ -125,6 +125,10 @@ def therapists():
 def contactus():
     return render_template('contactus.html')
 
+@app.route("/faq")
+def contactus():
+    return render_template('faq.html')
+
 @app.route("/ask", methods = ['POST','GET'])
 def ask():
     if request.method == 'POST':
