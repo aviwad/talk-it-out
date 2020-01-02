@@ -119,7 +119,17 @@ def therapists():
     cursor.execute('''SELECT name,codename,monthly_price,email,website FROM therapists''')
     allDB = cursor.fetchall()
     random.shuffle(allDB)
-    return render_template('therapist.html', therapist=allDB, pagetitle="Meet The Therapists", ismeetthetherapistsactive="thickfont")
+    return render_template('therapist.html', therapist=allDB, pagetitle="Meet The Therapists")
+
+@app.route("/search")
+def search():
+    db = sqlite3.connect('static/therapists.sql')
+    cursor = db.cursor()
+    cursor.execute('''SELECT name,codename,monthly_price,email,website FROM therapists''')
+    allDB = cursor.fetchall()
+    random.shuffle(allDB)
+    return render_template('therapist.html', therapist=allDB, pagetitle="Search", issearchactive="thickfont")
+
 
 @app.route("/contactus")
 def contactus():
@@ -220,9 +230,18 @@ def weekendtrips():
 def privacy():
     return render_template('privacy.html')
 
+
+
 @app.route("/aboutus")
 def aboutus():
-    return render_template('aboutus.html')
+    db = sqlite3.connect('static/partners.sql')
+    cursor = db.cursor()
+    cursor.execute('''SELECT name,codename,description,website FROM partners''')
+    allDB = cursor.fetchall()
+    random.shuffle(allDB)
+    db.close()
+    return render_template('aboutus.html', partners=allDB)
+
 
 @app.route('/trips/<some_place>')
 def some_place_page(some_place):

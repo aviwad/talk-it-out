@@ -8,8 +8,35 @@
     <h1 class="my-5 thickfont text-center text-info">About Us</h1>
     <div class="mx-3 my-3 text-center">
       <p>Add some details later.</p>
-      <p>This website is made by <b>Avi Wadhwa</b>.</p>
     </div>
+  </div>
+
+  <div class="jumbotron text-center custom-row my-5 jumbotron-little-padding">
+    <h1 class="my-5 thickfont text-center text-info">Partners</h1>
+    <div class="mx-3 my-3 text-center">
+      <p>Add description</p>
+    </div>
+  </div>
+
+  <div class="row justify-content-center align-items-center">
+      {% for item in partners %}
+        <div class="card mx-auto my-3 text-center card-shadow" style="width: 22rem;">
+          <div class="align-items-center">
+            <!--img class="img-fluid roundimagecard"src="../static/collections/{{item[1]}}.jpg" alt="Card image cap"-->
+
+          </div>
+          <div class="card-body">
+            <h5 class="card-title blacklink">{{item[0]}}</h5>
+            <img class="img-fluid roundimagecard"src="../static/collections/{{item[1]}}.png" width="200" height="auto" alt="Card image cap">
+            <br clear="all" />
+            <!--a href="mailto:{{item[3]}}" class="btn btn-outline-info">📧 Email</a-->
+            <a href="{{item[3]}}" class="btn btn-outline-info">🌐 Website</a>
+          </div>
+          <div class="card-footer">
+            <p class="card-text font-weight-bold">{{item[2]}}</p>
+          </div>
+        </div>
+      {% endfor %}
   </div>
 </div>
 {% endblock %}

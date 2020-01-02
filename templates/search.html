@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block title %}
+ {{ pagetitle }}
+{% endblock %}
+{% block content %}
+<section class="jumbotron mx-5 my-5">
+      <div class="container text-center">
+        <h1 class="jumbotron-heading thickfont text-center text-info">{{ pagetitle }}</h1>
+      </div>
+</section>
+<div class="container">
+  <div class="row justify-content-center align-items-center">
+      {% for item in therapist %}
+        <div class="card mx-auto my-3 text-center card-shadow" style="width: 22rem;">
+          <div class="align-items-center">
+            <!--img class="img-fluid roundimagecard"src="../static/collections/{{item[1]}}.jpg" alt="Card image cap"-->
+            <img class="img-fluid roundimagecard"src="../static/collections/user.png" alt="Card image cap">
+          </div>
+          <div class="card-body">
+            <h5 class="card-title blacklink">{{item[0]}}</h5>
+            <!-- in case therapist description p class="card-text font-weight-bold">⏰ {{item[4]}}</p-->
+            <a href="mailto:{{item[3]}}" class="btn btn-outline-info">📧 Email</a>
+            <a href="{{item[4]}}" class="btn btn-outline-info">🌐 Website</a>
+          </div>
+          <div class="card-footer">
+            Monthly Charges: {{item[2]}}
+          </div>
+        </div>
+      {% endfor %}
+  </div>
+</div>
+{% endblock %}
