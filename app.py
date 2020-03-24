@@ -116,7 +116,7 @@ def index():
 def therapists():
     db = sqlite3.connect('static/therapists.sql')
     cursor = db.cursor()
-    cursor.execute('''SELECT name,codename,monthly_price,email,website FROM therapists''')
+    cursor.execute('''SELECT name,codename,monthly_price,email,website,qualifications FROM therapists''')
     allDB = cursor.fetchall()
     random.shuffle(allDB)
     return render_template('therapist.html', therapist=allDB, pagetitle="Meet The Therapists")
@@ -125,7 +125,7 @@ def therapists():
 def search():
     db = sqlite3.connect('static/therapists.sql')
     cursor = db.cursor()
-    cursor.execute('''SELECT name,codename,monthly_price,email,website FROM therapists''')
+    cursor.execute('''SELECT name,codename,monthly_price,email,website,qualifications FROM therapists''')
     allDB = cursor.fetchall()
     random.shuffle(allDB)
     return render_template('therapist.html', therapist=allDB, pagetitle="Search", issearchactive="thickfont")
