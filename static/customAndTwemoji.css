@@ -1,5 +1,5 @@
 .navbar-nav .nav-item .nav-link {
-    color: white;
+    color: #333333;
 }
 .navbar-nav .nav-item.active .nav-link{
     color: blue;

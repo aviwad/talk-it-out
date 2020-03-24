@@ -112,14 +112,14 @@ def index():
 
 
 
-@app.route("/therapists")
-def therapists():
+@app.route("/meettheteam")
+def meettheteam():
     db = sqlite3.connect('static/therapists.sql')
     cursor = db.cursor()
     cursor.execute('''SELECT name,codename,monthly_price,email,website,qualifications FROM therapists''')
     allDB = cursor.fetchall()
     random.shuffle(allDB)
-    return render_template('therapist.html', therapist=allDB, pagetitle="Meet The Therapists")
+    return render_template('therapist.html', therapist=allDB, pagetitle="Meet The Team")
 
 @app.route("/search")
 def search():
