@@ -52,22 +52,22 @@ swears = swear_text.read().strip().split()
 
 @app.route("/moderation", methods = ['POST'])
 def moderation():
-    try:
-        if session["user_id"] != "aviwad" or session["user_id"] != "rohan" or session["user_id"] != "eshaan" or session["user_id"] != "aryan":
-            return redirect("/therapistlogin")
-        else:
-            db = sqlite3.connect('questionsanswers.sql')
-            cursor = db.cursor()
-            if "delete" in request.form:
-                cursor.execute('''DELETE FROM questions WHERE ID=(?)''',[request.form["delete"]])
-                # find row with same ID as request.form["delete"] and delete it
-            else:
-                cursor.execute('''UPDATE questions SET moderated=1 WHERE ID=(?)''',[request.form["approve"]])
-                # find row with same ID as request.form["approve"] and change moderated to 1
-            db.commit()
-            db.close()
-    except:
+    #try:
+    if session["user_id"] != "aviwad" and session["user_id"] != "rohan" and session["user_id"] != "eshaan" and session["user_id"] != "aryan":
         return redirect("/therapistlogin")
+    else:
+        db = sqlite3.connect('questionsanswers.sql')
+        cursor = db.cursor()
+        if "delete" in request.form:
+            cursor.execute('''DELETE FROM questions WHERE ID=(?)''',[request.form["delete"]])
+            # find row with same ID as request.form["delete"] and delete it
+        else:
+            cursor.execute('''UPDATE questions SET moderated=1 WHERE ID=(?)''',[request.form["approve"]])
+            # find row with same ID as request.form["approve"] and change moderated to 1
+        db.commit()
+        db.close()
+    #except:
+        #return redirect("/therapistlogin")
     return redirect(url_for("index"))
 
 @app.route("/answer", methods = ['POST'])
@@ -131,10 +131,6 @@ def search():
     return render_template('therapist.html', therapist=allDB, pagetitle="Search", issearchactive="thickfont")
 
 
-@app.route("/contactus")
-def contactus():
-    return render_template('contactus.html')
-
 @app.route("/faq")
 def faq():
     return render_template('faq.html')
@@ -146,18 +142,18 @@ def ask():
         cursor = db.cursor()
         result= request.form
         if (any(word in result["question"] for word in swears) or any(word in result["name"] for word in swears)):
-            return render_template('ask.html', isaskactive="thickfont",message="NO CUSSES", namevalue=result["name"], questionvalue=result["question"])
+            return render_template('ask.html', isaskactive="thickfont",message='No curses please!', namevalue=result["name"], questionvalue=result["question"], isError=True)
         else:
             if (len(result["question"]) > 280):
-                return render_template('ask.html', isaskactive="thickfont",message="KEEP LENGTH LESS THAN 280 characters", namevalue=result["name"], questionvalue=result["question"])
+                return render_template('ask.html', isaskactive="thickfont",message='Keep length lesser than 280 characters please!', namevalue=result["name"], questionvalue=result["question"],isError=True)
             elif (len(result["question"]) == 0 or len(result["name"]) == 0):
-                return render_template('ask.html', isaskactive="thickfont",message="empty question/name", namevalue=result["name"])
+                return render_template('ask.html', isaskactive="thickfont",message='Empty questions/name', namevalue=result["name"],isError=True)
             elif (len(result["name"]) > 25):
-                return render_template('ask.html', isaskactive="thickfont",message="KEEP NAME LENGTH LESS THAN 25 characters", namevalue=result["name"], questionvalue=result["question"])
+                return render_template('ask.html', isaskactive="thickfont",message='Name lesser than 25 characters please', namevalue=result["name"], questionvalue=result["question"],isError=True)
             else:
                 cursor.execute("INSERT INTO questions (name,date,question,'ip address',ID,moderated,answered) VALUES (?,?,?,?,?,?,?)",(result['name'],datetime.datetime.now().strftime('%b/%d/%Y'),result['question'],request.environ.get('HTTP_X_REAL_IP', request.remote_addr),str(uuid.uuid4()),0,0))
                 db.commit()
-                return render_template('ask.html', isaskactive="thickfont",message="ASKED")
+                return render_template('ask.html', isaskactive="thickfont",message="ASKED",isError=False)
         db.close()
     else:
         return render_template('ask.html', isaskactive="thickfont")
@@ -217,20 +213,9 @@ def answered():
     allDB.reverse()
     return render_template('answered.html', isansweractive="thickfont", answered=allDB)
 
-@app.route("/weekendtrips")
-def weekendtrips():
-    db = sqlite3.connect('static/trips.sql')
-    cursor = db.cursor()
-    cursor.execute('''SELECT name,codename,price,location,duration,display_price FROM trips WHERE collection = "Weekend Getaways"''')
-    allDB = cursor.fetchall()
-    random.shuffle(allDB)
-    return render_template('page.html', trips=allDB, pagetitle="Weekend Getaways", isweekendgetawayactive="thickfont")
-
 @app.route("/privacy")
 def privacy():
     return render_template('privacy.html')
-
-
 
 @app.route("/aboutus")
 def aboutus():
@@ -242,15 +227,6 @@ def aboutus():
     db.close()
     return render_template('aboutus.html', partners=allDB)
 
-
-@app.route('/trips/<some_place>')
-def some_place_page(some_place):
-    db = sqlite3.connect('static/trips.sql')
-    cursor = db.cursor()
-    cursor.execute('''SELECT name,codename,price,location,duration,display_price,overview1,overview2 FROM trips WHERE codename=(?)''',[some_place])
-    allDB = cursor.fetchall()
-    random.shuffle(allDB)
-    return render_template('trips.html', some_place=some_place, trip=allDB[0])
     #return(HTML_TEMPLATE.substitute(place_name=some_place))
 
 # add this for all errors to go to same generic page

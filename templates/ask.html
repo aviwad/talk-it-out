@@ -3,6 +3,7 @@
  Ask A Question!
 {% endblock %}
 {% block content %}
+
 <section class="jumbotron mx-5 my-5">
       <div class="container text-center">
         <h1 class="jumbotron-heading thickfont text-center text-info">Ask A Question</h1>
@@ -10,6 +11,9 @@
 </section>
 <div class="dropdown-divider"></div>
 <div class="card mx-auto my-3 text-center card-shadow" style="width: 25rem;">
+  {% if isError %}
+  <div class="alert alert-danger" role="alert">{{message}}</div>
+  {% endif %}
   <form action="/ask" method="post">
   <div class="card-body">
     <h5 class="card-title blacklink"></h5>
@@ -32,5 +36,4 @@
  <input type="submit" value="Submit">
 
 </form-->
-<h1>{{message}}</h1>
 {% endblock %}

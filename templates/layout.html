@@ -2,6 +2,7 @@
 <html>
   <head>
     <!-- favicon, twemoji's penguin, in base64 -->
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
     <link rel="apple-touch-icon" sizes="57x57" href="/static/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/static/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/static/apple-icon-72x72.png">
@@ -20,6 +21,7 @@
     <meta name="msapplication-TileImage" content="/static/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
     <!-- Required meta tags -->
+    <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <!-- JQuery -->
@@ -76,7 +78,7 @@
         {% if session["user_id"] %}
           <ul class="navbar-nav ml-auto">
             <div class="navbar-nav">
-              <a class="btn btn-info" href="logout" role="button">Log Out</a>
+              <a class="btn btn-success" href="logout" role="button">Log Out</a>
             </div>
           </ul>
         {% else %}
@@ -94,7 +96,7 @@
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="aboutus">About Us</a>
                   <div class="dropdown-divider"></div>
-                  <a class="btn btn-info" href="therapistlogin" role="button">Log In</a>
+                  <a class="btn btn-success" href="therapistlogin" role="button">Log In</a>
                 </div>
               </li>
             </li>

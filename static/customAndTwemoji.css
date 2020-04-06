@@ -2,10 +2,10 @@
     color: #333333;
 }
 .navbar-nav .nav-item.active .nav-link{
-    color: blue;
+    color: green;
 }
 .navbar-nav .nav-item:hover .nav-link {
-    color: #17a2b8;
+    color: #5cb85c;
 }
 
 /* Lato font! */
@@ -156,6 +156,7 @@ fieldset[disabled] .btn-purple.active {
 
 .thickfont {
   font-weight: bold;
+  color: #5cb85c;
 }
 
 .whitelink, .whitelink:hover{
@@ -171,7 +172,7 @@ fieldset[disabled] .btn-purple.active {
  left: 0;
  bottom: 0;
  width: 100%;
- background-color: #17a2b8;
+ background-color: #5cb85c;
  color: white;
  text-align: center;
 }
@@ -202,4 +203,65 @@ fieldset[disabled] .btn-purple.active {
   -webkit-box-shadow: -1px 9px 40px -12px  rgba(0, 0, 0, 0.75);
   -moz-box-shadow: -1px 9px 40px -12px  rgba(0, 0, 0, 0.75);
   box-shadow: -1px 9px 40px -12px  rgba(0, 0, 0, 0.75);
+}
+
+
+.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+@media (max-width: 768px) {
+  .extra-height-jumbotron {
+    min-height: 100px;
+  }
+  .jumbotron-image1 {
+    background-image: url("image 1 talk it out banner.png");
+    height: 300px;
+    width: 300px;
+    background-size: cover;
+    border-radius: 1;
+  }
+  .jumbotron-image2 {
+    background-image: url("image 2 talk it out banner.png");
+    height: 300px;
+    width: 300px;
+    background-size: cover;
+    border-radius: 1;
+  }
+  .jumbotron-image3 {
+    background-image: url("image 3 talk it out banner.png");
+    height: 200px;
+    background-size: cover;
+    border-radius: 1;
+  }
+
+ }
+
+@media (min-width: 577px) {
+  .jumbotron-image1 {
+    background-image: url("image 1 talk it out banner.png");
+    height: 400px;
+    background-size: cover;
+    border-radius: 1;
+  }
+  .jumbotron-image2 {
+    background-image: url("image 2 talk it out banner.png");
+    height: 400px;
+    background-size: cover;
+    border-radius: 1;
+  }
+  .jumbotron-image3 {
+    background-image: url("image 3 talk it out banner.png");
+    height: 400px;
+    background-size: cover;
+    border-radius: 1;
+  }
+
+ }
+
+.green-jumbotron {
+  background-color: #96b95d;
 }
