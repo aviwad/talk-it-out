@@ -4,11 +4,18 @@
 {% endblock %}
 {% block content %}
 
-<section class="jumbotron mx-5 my-5">
+<section class="jumbotron mx-5 my-5 green-jumbotron">
       <div class="container text-center">
-        <h1 class="jumbotron-heading thickfont text-center">Ask A Question</h1>
+        <h1 class="jumbotron-heading thickfont text-center text-white">Ask A Question</h1>
       </div>
 </section>
+<div class="jumbotron row mt-5">
+  <div class="col-md-7 text-center extra-height-jumbotron">
+    <h1>Vent Out. <br><span class="text-white">Without Judgement.</span></h1>
+    <!--p class="lead">No company watching over you, no "big brother is watching you" nonsense. Just your desktop and you, with no big scary corporation stealing all your data.</p-->
+  </div>
+  <div class="col-md-5"><img alt="Icon" class="featurette-image img-fluid mx-auto d-block" height="auto" src="static/EMOJIS/talking it out.png" width="150"></div>
+</div>
 <div class="dropdown-divider"></div>
 <div class="card mx-auto my-3 text-center card-shadow" style="width: 25rem;">
   {% if isError %}
@@ -20,7 +27,7 @@
       Name:<br>
      <input type="text" name="name" value="{{namevalue}}"><br>
      Question:<br>
-     <input type="text" name="question" value="{{questionvalue}}">
+     <textarea type="text" name="question" value="{{questionvalue}}"></textarea>
   </div>
   <div class="card-footer">
     <button type="submit" name="submit" value="Submit" class="btn btn-success">Ask</button>
