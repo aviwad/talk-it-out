@@ -5,9 +5,23 @@
     color: green;
 }
 .navbar-nav .nav-item:hover .nav-link {
-    color: #5cb85c;
+    color: #96b95d;
 }
+.text-align-center {
+  text-align: center;
+}
+/*.nav-item {
 
+    color: #FFFFFF;
+
+    background-color: #2399FB;
+
+    border-color: #dee2e6 #dee2e6 #fff;
+
+}*/
+.active {
+
+}
 /* Lato font! */
 /* latin-ext */
 @font-face {

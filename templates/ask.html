@@ -3,38 +3,117 @@
  Ask A Question!
 {% endblock %}
 {% block content %}
-
-<section class="jumbotron mx-5 my-5 green-jumbotron">
+<div id="content" class="container">
+    <section class="jumbotron  my-5 green-jumbotron">
+          <div class="container text-center">
+            <h1 class="jumbotron-heading thickfont text-center text-white">Ask A Question</h1>
+          </div>
+    </section>
+    <section class="jumbotron ">
       <div class="container text-center">
-        <h1 class="jumbotron-heading thickfont text-center text-white">Ask A Question</h1>
+          <h1 class="thickfont text-center danger-text">Disclaimer</h1>
+          <h3 class="my-3 thickfont text-center text-muted">A moderator will ensure that only relevant queries get to be visible on the portal</h3>
+          <p class="lead mb-3">The portal will allow everyone to read the queries posted as well as the Counsellors’ responses; however, no third person would be permitted to comment on the ongoing dialogue.</p>
       </div>
-</section>
-<div class="jumbotron row mt-5">
-  <div class="col-md-7 text-center extra-height-jumbotron">
-    <h1>Vent Out. <br><span class="text-white">Without Judgement.</span></h1>
-    <!--p class="lead">No company watching over you, no "big brother is watching you" nonsense. Just your desktop and you, with no big scary corporation stealing all your data.</p-->
-  </div>
-  <div class="col-md-5"><img alt="Icon" class="featurette-image img-fluid mx-auto d-block" height="auto" src="static/EMOJIS/talking it out.png" width="150"></div>
+    </section>
+    <div class="">
+      <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active text-success" id="behavioural-tab" data-toggle="tab" href="#behavioural" role="tab" aria-controls="behavioural" aria-selected="true">Behavioural</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-success" id="education-tab" data-toggle="tab" href="#education" role="tab" aria-controls="education" aria-selected="false">Education</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-success" id="physical-tab" data-toggle="tab" href="#physical" role="tab" aria-controls="physical" aria-selected="false">Physical</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-success" id="social-tab" data-toggle="tab" href="#social" role="tab" aria-controls="social" aria-selected="false">Social/Relationships</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-success" id="addiction-tab" data-toggle="tab" href="#addiction" role="tab" aria-controls="addiction" aria-selected="false">Addiction</a>
+        </li>
+      </ul>
+      <div class="tab-content text-align-center" id="myTabContent">
+        <div class="tab-pane fade show active" id="behavioural" role="tabpanel" aria-labelledby="behavioural-tab">
+          <p></p>
+          <p class="lead"><b>Post your question under this category if it is related to:</b></p>
+          <p></p>
+          <ul>feeling disorganized, restless or forgetful</ul>
+          <ul>showing symptoms of impulsiveness</ul>
+          <ul>difficulty in handling different tasks simultaneously</ul>
+          <ul>feeling angry or worthless</ul>
+          <ul>feeling disinterested, demotivated or indifferent</ul>
+          <ul>feeling anxious, hyperactive or hyper-sensitive</ul>
+          <ul>feeling a desire to self-harm or harm others</ul>
+        </div>
+        <div class="tab-pane fade" id="education" role="tabpanel" aria-labelledby="education-tab">
+          <p></p>
+          <p class="lead"><b>Post your question under this category if it is related to:</b></p>
+          <p></p>
+          <ul>Difficulty in learning skills: walking or running, writing with a pencil, holding scissors</ul>
+          <ul>Difficulty in learning subjects: trouble solving math problems</ul>
+          <ul>Difficulty in learning languages: reading comprehension trouble</ul>
+          <ul>Feeling of underachievement</ul>
+          <ul>Desire to drop-out</ul>
+          <ul>Fear of going to school</ul>
+          <ul>Regular truancy/absenteeism</ul>
+          <ul>Fear of exams</ul>
+        </div>
+        <div class="tab-pane fade" id="physical" role="tabpanel" aria-labelledby="physical-tab">
+          <p></p>
+          <p class="lead"><b>Post your question under this category if it is related to:</b></p>
+          <p></p>
+          <ul>Battling an illness</ul>
+          <ul>Recovering from an injury</ul>
+          <ul>Body Image & Shaming</ul>
+          <ul>Concerns related to growth & development</ul>
+          <ul>Obesity or emaciation</ul>
+        </div>
+        <div class="tab-pane fade" id="social" role="tabpanel" aria-labelledby="social-tab">
+          <p></p>
+          <p class="lead"><b>Post your question under this category if it is related to:</b></p>
+          <p></p>
+          <ul>Peer Pressure</ul>
+          <ul>Bullying</ul>
+          <ul>Interpersonal Violence</ul>
+          <ul>Authoritative Parents</ul>
+          <ul>Family/Personal Relationship Conflicts</ul>
+          <ul>Social Relationships Issues</ul>
+          <ul>Social Fear</ul>
+        </div>
+        <div class="tab-pane fade" id="addiction" role="tabpanel" aria-labelledby="addiction-tab">
+            <p></p>
+            <p class="lead"><b>Post your question under this category if it is related to:</b></p>
+            <p></p>
+            <ul>Spending excessive time on phone or social media</ul>
+            <ul>Consumption of alcohol or drugs</ul>
+            <ul>Smoking, hookah, vapes</ul>
+            <ul>Being around someone who is an addict</ul>
+            <ul>Addiction in a family member</ul>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div class="dropdown-divider "></div>
+    <div class="card mx-auto my-3 text-center card-shadow" style="width: 25rem;">
+      {% if isError %}
+      <div class="alert alert-danger" role="alert">{{message}}</div>
+      {% endif %}
+      <form action="/ask" method="post">
+      <div class="card-body">
+        <h5 class="card-title blacklink"></h5>
+          Name:<br>
+         <input type="text" name="name" value="{{namevalue}}"><br>
+         Question:<br>
+         <textarea type="text" name="question" value="{{questionvalue}}"></textarea>
+      </div>
+      <div class="card-footer">
+        <button type="submit" name="submit" value="Submit" class="btn btn-success">Ask</button>
+      </div>
+      </form>
+    </div>
 </div>
-<div class="dropdown-divider"></div>
-<div class="card mx-auto my-3 text-center card-shadow" style="width: 25rem;">
-  {% if isError %}
-  <div class="alert alert-danger" role="alert">{{message}}</div>
-  {% endif %}
-  <form action="/ask" method="post">
-  <div class="card-body">
-    <h5 class="card-title blacklink"></h5>
-      Name:<br>
-     <input type="text" name="name" value="{{namevalue}}"><br>
-     Question:<br>
-     <textarea type="text" name="question" value="{{questionvalue}}"></textarea>
-  </div>
-  <div class="card-footer">
-    <button type="submit" name="submit" value="Submit" class="btn btn-success">Ask</button>
-  </div>
-  </form>
-</div>
-
 <!--form action="/ask" method="post">
   Name:<br>
  <input type="text" name="name" value="{{namevalue}}"><br>
