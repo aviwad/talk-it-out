@@ -3,19 +3,29 @@
  Ask A Question!
 {% endblock %}
 {% block content %}
+
+{% if isError %}
+<script>
+    $(document).ready(function(){
+      document.getElementById('question-card').scrollIntoView();
+    });
+    // or
+    //document.location.hash = '#' + 'question-card';
+</script>
+{% endif %}
 <div id="content" class="container">
     <section class="jumbotron  my-5 green-jumbotron">
           <div class="container text-center">
             <h1 class="jumbotron-heading thickfont text-center text-white">Ask A Question</h1>
           </div>
     </section>
-    <section class="jumbotron ">
+    <!--section class="jumbotron ">
       <div class="container text-center">
-          <h1 class="thickfont text-center danger-text">Disclaimer</h1>
           <h3 class="my-3 thickfont text-center text-muted">A moderator will ensure that only relevant queries get to be visible on the portal</h3>
           <p class="lead mb-3">The portal will allow everyone to read the queries posted as well as the Counsellors’ responses; however, no third person would be permitted to comment on the ongoing dialogue.</p>
       </div>
-    </section>
+    </section-->
+
     <div class="">
       <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
         <li class="nav-item">
@@ -35,7 +45,7 @@
         </li>
       </ul>
       <div class="tab-content text-align-center" id="myTabContent">
-        <div class="tab-pane fade show active" id="behavioural" role="tabpanel" aria-labelledby="behavioural-tab">
+        <div class="tab-pane fade show active question-category-text-limit" id="behavioural" role="tabpanel" aria-labelledby="behavioural-tab">
           <p></p>
           <p class="lead"><b>Post your question under this category if it is related to:</b></p>
           <p></p>
@@ -47,7 +57,7 @@
           <ul>feeling anxious, hyperactive or hyper-sensitive</ul>
           <ul>feeling a desire to self-harm or harm others</ul>
         </div>
-        <div class="tab-pane fade" id="education" role="tabpanel" aria-labelledby="education-tab">
+        <div class="tab-pane fade question-category-text-limit" id="education" role="tabpanel" aria-labelledby="education-tab">
           <p></p>
           <p class="lead"><b>Post your question under this category if it is related to:</b></p>
           <p></p>
@@ -60,7 +70,7 @@
           <ul>Regular truancy/absenteeism</ul>
           <ul>Fear of exams</ul>
         </div>
-        <div class="tab-pane fade" id="physical" role="tabpanel" aria-labelledby="physical-tab">
+        <div class="tab-pane fade question-category-text-limit" id="physical" role="tabpanel" aria-labelledby="physical-tab">
           <p></p>
           <p class="lead"><b>Post your question under this category if it is related to:</b></p>
           <p></p>
@@ -70,7 +80,7 @@
           <ul>Concerns related to growth & development</ul>
           <ul>Obesity or emaciation</ul>
         </div>
-        <div class="tab-pane fade" id="social" role="tabpanel" aria-labelledby="social-tab">
+        <div class="tab-pane fade question-category-text-limit" id="social" role="tabpanel" aria-labelledby="social-tab">
           <p></p>
           <p class="lead"><b>Post your question under this category if it is related to:</b></p>
           <p></p>
@@ -82,7 +92,7 @@
           <ul>Social Relationships Issues</ul>
           <ul>Social Fear</ul>
         </div>
-        <div class="tab-pane fade" id="addiction" role="tabpanel" aria-labelledby="addiction-tab">
+        <div class="tab-pane fade question-category-text-limit" id="addiction" role="tabpanel" aria-labelledby="addiction-tab">
             <p></p>
             <p class="lead"><b>Post your question under this category if it is related to:</b></p>
             <p></p>
@@ -96,20 +106,18 @@
       </div>
     </div>
     <div class="dropdown-divider "></div>
-    <div class="card mx-auto my-3 text-center card-shadow" style="width: 25rem;">
+    <div class="card mx-auto my-3 text-center questions-shadow" id="question-card" style="width: 25rem;">
       {% if isError %}
       <div class="alert alert-danger" role="alert">{{message}}</div>
       {% endif %}
       <form action="/ask" method="post">
       <div class="card-body">
         <h5 class="card-title blacklink"></h5>
-          Name:<br>
-         <input type="text" name="name" value="{{namevalue}}"><br>
-         Question:<br>
-         <textarea type="text" name="question" value="{{questionvalue}}"></textarea>
+         <input type="text" class="form-control" placeholder="Name" name="name" value="{{namevalue}}"><br>
+         <textarea type="text" class="form-control" placeholder="Type your question here" name="question" value="{{questionvalue}}"></textarea>
       </div>
       <div class="card-footer">
-        <button type="submit" name="submit" value="Submit" class="btn btn-success">Ask</button>
+        <button type="submit" name="submit" value="Submit" class="btn btn-success btn-lg btn-block">Ask</button>
       </div>
       </form>
     </div>

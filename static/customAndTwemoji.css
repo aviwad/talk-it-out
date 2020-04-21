@@ -220,6 +220,12 @@ fieldset[disabled] .btn-purple.active {
 }
 
 
+.questions-shadow {
+  -webkit-box-shadow: -1px 9px 40px -12px  rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -1px 9px 40px -12px  rgba(0, 0, 0, 0.75);
+  box-shadow: -1px 9px 40px -12px  rgba(0, 0, 0, 0.75);
+}
+
 .no-gutters {
   margin-right: 0;
   margin-left: 0;
@@ -278,4 +284,11 @@ fieldset[disabled] .btn-purple.active {
 
 .green-jumbotron {
   background-color: #96b95d;
+}
+
+
+.question-category-text-limit {
+   /* Optional - You can set a  min-height : whatever px; for reserving some space*/
+   max-height: 270px; /* Fix a max-height here */
+   overflow: auto; /* Optionally you can also use overflow: scroll; */
 }
