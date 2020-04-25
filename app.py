@@ -141,17 +141,20 @@ def ask():
         db = sqlite3.connect('questionsanswers.sql')
         cursor = db.cursor()
         result= request.form
+        print(result["category"])
         if (any(word in result["question"] for word in swears) or any(word in result["name"] for word in swears)):
             return render_template('ask.html', isaskactive="thickfont",message='No curses please!', namevalue=result["name"], questionvalue=result["question"], isError=True)
         else:
             if (len(result["question"]) > 280):
                 return render_template('ask.html', isaskactive="thickfont",message='Keep length lesser than 280 characters please!', namevalue=result["name"], questionvalue=result["question"],isError=True)
             elif (len(result["question"]) == 0 or len(result["name"]) == 0):
-                return render_template('ask.html', isaskactive="thickfont",message='Empty questions/name', namevalue=result["name"],isError=True)
+                return render_template('ask.html', isaskactive="thickfont",message='Empty questions/name', namevalue=result["name"],questionvalue=result["question"],isError=True)
+            elif result["category"]== "Pick a category":
+                return render_template('ask.html', isaskactive="thickfont",message='Please pick a category', namevalue=result["name"],questionvalue=result["question"],isError=True)
             elif (len(result["name"]) > 25):
                 return render_template('ask.html', isaskactive="thickfont",message='Name lesser than 25 characters please', namevalue=result["name"], questionvalue=result["question"],isError=True)
             else:
-                cursor.execute("INSERT INTO questions (name,date,question,'ip address',ID,moderated,answered) VALUES (?,?,?,?,?,?,?)",(result['name'],datetime.datetime.now().strftime('%b/%d/%Y'),result['question'],request.environ.get('HTTP_X_REAL_IP', request.remote_addr),str(uuid.uuid4()),0,0))
+                cursor.execute("INSERT INTO questions (name,date,question,'ip address',ID,moderated,answered,category) VALUES (?,?,?,?,?,?,?,?)",(result['name'],datetime.datetime.now().strftime('%b/%d/%Y'),result['question'],request.environ.get('HTTP_X_REAL_IP', request.remote_addr),str(uuid.uuid4()),0,0,result["category"]))
                 db.commit()
                 return render_template('ask.html', isaskactive="thickfont",message="ASKED",isError=False)
         db.close()
@@ -208,7 +211,7 @@ def therapistlogin():
 def answered():
     db = sqlite3.connect('questionsanswers.sql')
     cursor = db.cursor()
-    cursor.execute('''SELECT questions.name,questions.question, answers.answer,answers.name,answers.date,questions.date FROM questions,answers WHERE questions.ID = answers.'question ID' AND questions.answered = 1''')
+    cursor.execute('''SELECT questions.name,questions.question, answers.answer,answers.name,answers.date,questions.date,questions.category FROM questions,answers WHERE questions.ID = answers.'question ID' AND questions.answered = 1''')
     allDB = cursor.fetchall()
     allDB.reverse()
     return render_template('answered.html', isansweractive="thickfont", answered=allDB)

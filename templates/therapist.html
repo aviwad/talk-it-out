@@ -3,11 +3,13 @@
  {{ pagetitle }}
 {% endblock %}
 {% block content %}
-<section class="jumbotron mx-5 my-5">
-      <div class="container text-center">
-        <h1 class="jumbotron-heading thickfont text-center">The Therapists</h1>
-      </div>
-</section>
+<div class="container">
+  <section class="jumbotron my-5 green-jumbotron">
+        <div class="container text-center">
+          <h1 class="jumbotron-heading thickfont text-center text-white">The Therapists</h1>
+        </div>
+  </section>
+</div>
 <div class="container">
   <div class="row justify-content-center align-items-center">
       {% for item in therapist %}
@@ -30,11 +32,13 @@
   </div>
 </div>
 
-<section class="jumbotron mx-5 my-5">
-      <div class="container text-center">
-        <h1 class="jumbotron-heading thickfont text-center text-success">The Students Behind it</h1>
-      </div>
-</section>
+<div class="container">
+  <section class="jumbotron my-5 green-jumbotron">
+        <div class="container text-center">
+          <h1 class="jumbotron-heading thickfont text-center text-white">The Students Behind it</h1>
+        </div>
+  </section>
+</div>
 <div class="container">
   <div class="row justify-content-center align-items-center">
         <div class="card mx-auto my-3 text-center card-shadow" style="width: 22rem;">

@@ -292,3 +292,9 @@ fieldset[disabled] .btn-purple.active {
    max-height: 270px; /* Fix a max-height here */
    overflow: auto; /* Optionally you can also use overflow: scroll; */
 }
+
+
+.dropdown-item.active, .dropdown-item:active {
+    color: #fff;
+    background-color: #96b95d;
+}
