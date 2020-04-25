@@ -114,7 +114,16 @@
       <div class="card-body">
         <h5 class="card-title blacklink"></h5>
          <input type="text" class="form-control" placeholder="Name" name="name" value="{{namevalue}}"><br>
-         <textarea type="text" class="form-control" placeholder="Type your question here" name="question" value="{{questionvalue}}"></textarea>
+         <textarea type="text" class="form-control" placeholder="Type your question here" name="question" value="{{questionvalue}}"></textarea><br>
+         <select id="category-select" class="form-control" name="category">
+           <option>Pick a category</option>
+           <option>Behavioural</option>
+           <option>Education</option>
+           <option>Physical</option>
+           <option>Social/Relationships</option>
+           <option>Addiction</option>
+           <option>Can't decide</option>
+         </select>
       </div>
       <div class="card-footer">
         <button type="submit" name="submit" value="Submit" class="btn btn-success btn-lg btn-block">Ask</button>
