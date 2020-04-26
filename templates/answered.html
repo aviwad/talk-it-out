@@ -8,9 +8,36 @@
       <div class="container text-center">
         <h1 class="jumbotron-heading thickfont text-center text-white">Answered Questions</h1>
       </div>
+      <div class="input-group mt-3" style="justify-content: center;">
+        <form action="/answered" method="post">
+          <div style="display: flex;">
+            <div class="input-group-prepend">
+              <select id="category-select" class="form-control" style="width: 140px;" name="category">
+                <option>All categories</option>
+                <option>(new) Coronavirus</option>
+                <option>Behavioural</option>
+                <option>Education</option>
+                <option>Physical</option>
+                <option>Social/Relationships</option>
+                <option>Addiction</option>
+              </select>
+            </div>
+            <input name="query" type="text" placeholder="Search" style="max-width: 500px; min-width: 300px; width:100%;" class="form-control" aria-label="Text input with dropdown button">
+            <div class="input-group-append">
+              <button class="btn" type="submit" name="submit" value="Submit">
+                  <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
 </section>
+
 </div>
 <div class="container">
+    <div class="text-align-center">
+      <h3>{{whatresults}}</h3>
+    </div>
     <div class="row justify-content-center align-items-center">
       {% for item in answered %}
           <div class="card text-center mx-auto my-3 card-shadow" style="width: 22rem;">

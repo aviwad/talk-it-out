@@ -156,7 +156,7 @@ def ask():
             else:
                 cursor.execute("INSERT INTO questions (name,date,question,'ip address',ID,moderated,answered,category) VALUES (?,?,?,?,?,?,?,?)",(result['name'],datetime.datetime.now().strftime('%b/%d/%Y'),result['question'],request.environ.get('HTTP_X_REAL_IP', request.remote_addr),str(uuid.uuid4()),0,0,result["category"]))
                 db.commit()
-                return render_template('ask.html', isaskactive="thickfont",message="ASKED",isError=False)
+                return render_template('ask.html', isaskactive="thickfont",message="ASKED",isError=False, isFine=True)
         db.close()
     else:
         return render_template('ask.html', isaskactive="thickfont")
@@ -207,14 +207,64 @@ def therapistlogin():
     else:
         return render_template('therapistlogin.html')
 
-@app.route("/answered")
+@app.route("/answered", methods = ['POST','GET'])
 def answered():
-    db = sqlite3.connect('questionsanswers.sql')
-    cursor = db.cursor()
-    cursor.execute('''SELECT questions.name,questions.question, answers.answer,answers.name,answers.date,questions.date,questions.category FROM questions,answers WHERE questions.ID = answers.'question ID' AND questions.answered = 1''')
-    allDB = cursor.fetchall()
-    allDB.reverse()
-    return render_template('answered.html', isansweractive="thickfont", answered=allDB)
+    if request.method == 'POST':
+        result= request.form
+        print(result)
+        # if specific Category and Search
+            # specific search in Category
+        if len(result["query"]) != 0 and result["category"] != "All categories":
+            print("specific search, specific category. nice")
+            db = sqlite3.connect('questionsanswers.sql')
+            # TODO make category selected in html
+            cursor = db.cursor()
+            cursor.execute('''SELECT questions.name,questions.question, answers.answer,answers.name,answers.date,questions.date,questions.category FROM questions,answers WHERE (questions.ID = answers.'question ID' AND questions.answered = 1 AND questions.category = ?) AND (questions.name LIKE ? or questions.question LIKE ? or answers.answer LIKE ?)''', [result["category"], "%"+result["query"]+"%","%"+result["query"]+"%","%"+result["query"]+"%"])
+            allDB = cursor.fetchall()
+            allDB.reverse()
+            return render_template('answered.html', isansweractive="thickfont", answered=allDB, whatresults='Showing results for "'+result["query"][:5]+'..." in category '+result["category"])
+
+
+
+        # if specific category and no Search
+            # cursor execute but add Category
+        elif len(result["query"]) == 0 and result["category"] != "All categories":
+            print("no search, specific category. nice")
+            db = sqlite3.connect('questionsanswers.sql')
+            # TODO make category selected in html
+            cursor = db.cursor()
+            cursor.execute('''SELECT questions.name,questions.question, answers.answer,answers.name,answers.date,questions.date,questions.category FROM questions,answers WHERE questions.ID = answers.'question ID' AND questions.answered = 1 AND questions.category = ?''', [result["category"]])
+            allDB = cursor.fetchall()
+            allDB.reverse()
+            return render_template('answered.html', isansweractive="thickfont", answered=allDB, whatresults="Showing all results in category "+result["category"])
+        # if all category and search
+            # specific search in all category
+        elif len(result["query"]) != 0 and result["category"] == "All categories":
+            print("specific search, all category. nice")
+            db = sqlite3.connect('questionsanswers.sql')
+            cursor = db.cursor()
+            cursor.execute('''SELECT questions.name,questions.question, answers.answer,answers.name,answers.date,questions.date,questions.category FROM questions,answers WHERE (questions.ID = answers.'question ID' AND questions.answered = 1) AND (questions.name LIKE ? or questions.question LIKE ? or answers.answer LIKE ?)''', [ "%"+result["query"]+"%","%"+result["query"]+"%","%"+result["query"]+"%"])
+            allDB = cursor.fetchall()
+            allDB.reverse()
+            return render_template('answered.html', isansweractive="thickfont", answered=allDB, whatresults='Showing all results for "'+result["query"][:5]+'..."')
+        # if no category, no search
+            # redirect to get method
+        else:
+            print("no search no category. nice")
+            db = sqlite3.connect('questionsanswers.sql')
+            cursor = db.cursor()
+            cursor.execute('''SELECT questions.name,questions.question, answers.answer,answers.name,answers.date,questions.date,questions.category FROM questions,answers WHERE questions.ID = answers.'question ID' AND questions.answered = 1''')
+            allDB = cursor.fetchall()
+            allDB.reverse()
+            return render_template('answered.html', isansweractive="thickfont", answered=allDB, whatresults="Showing all results")
+
+    else:
+        db = sqlite3.connect('questionsanswers.sql')
+        cursor = db.cursor()
+        cursor.execute('''SELECT questions.name,questions.question, answers.answer,answers.name,answers.date,questions.date,questions.category FROM questions,answers WHERE questions.ID = answers.'question ID' AND questions.answered = 1''')
+        allDB = cursor.fetchall()
+        allDB.reverse()
+        return render_template('answered.html', isansweractive="thickfont", answered=allDB, whatresults="Showing all results")
 
 @app.route("/privacy")
 def privacy():

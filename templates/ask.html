@@ -14,6 +14,13 @@
 </script>
 {% endif %}
 <div id="content" class="container">
+    {% if isFine %}
+    <div class="mt-5">
+      <div class="alert alert-success text-align-center" role="alert">
+        Question sent! You will most likely receive an answer in 48 hours. Remember to check later.
+      </div>
+    </div>
+    {% endif%}
     <section class="jumbotron  my-5 green-jumbotron">
           <div class="container text-center">
             <h1 class="jumbotron-heading thickfont text-center text-white">Ask A Question</h1>
@@ -124,7 +131,7 @@
       <div class="card-body">
         <h5 class="card-title blacklink"></h5>
          <input type="text" class="form-control" placeholder="Name" name="name" value="{{namevalue}}"><br>
-         <textarea type="text" class="form-control" placeholder="Type your question here" name="question" value="{{questionvalue}}"></textarea><br>
+         <textarea type="text" class="form-control" placeholder="Type your question here" name="question" value="{{questionvalue}}">{{questionvalue}}</textarea><br>
          <select id="category-select" class="form-control" name="category">
            <option>Pick a category</option>
            <option>(new) Coronavirus</option>
@@ -133,7 +140,7 @@
            <option>Physical</option>
            <option>Social/Relationships</option>
            <option>Addiction</option>
-           <option>Can't decide</option>
+           <!--option>Can't decide</option-->
          </select>
       </div>
       <div class="card-footer">
