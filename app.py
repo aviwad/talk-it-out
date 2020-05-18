@@ -4,7 +4,8 @@ import json
 import datetime
 import uuid
 from tempfile import mkdtemp
-from flask_session import Session
+#from flask_session import Session
+from flask_login import LoginManager
 from functools import wraps
 from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -20,6 +21,9 @@ import sqlite3
 app = Flask(__name__)
 # change secret key in final deployment
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+
+#login_manager = LoginManager()
+#login_manager.init_app(app)
 
 def login_required(f):
     """
@@ -44,7 +48,6 @@ app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 #app.config['SECRET_KEY'] = os.urandom(24)
-Session(app)
 
 
 swear_text = open("static/swear")
