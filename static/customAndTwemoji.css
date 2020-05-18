@@ -304,11 +304,23 @@ fieldset[disabled] .btn-purple.active {
   .h1bigsmall{
     font-size: 40px;
   }
+
 }
 
+@media screen and (min-width: 768px) {
+  .customwidth {
+    min-width: 500px;
+  }
+}
 /* If the screen size is 600px wide or less, set the font-size of <div> to 30px */
 @media screen and (max-width: 600px) {
   .h1bigsmall {
     font-size: 30px;
+  }
+
+}
+@media screen and (max-width: 465px) {
+  .customwidth{
+    min-width: 200px;
   }
 }
