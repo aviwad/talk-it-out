@@ -142,6 +142,11 @@
            <option>Addiction</option>
            <!--option>Can't decide</option-->
          </select>
+         <br>
+         {{ captcha() }} <!-- This renders an <img> tag with the captcha img. -->
+         <br>
+         <br>
+         <input type="text" class="form-control" placeholder="Enter Captcha" name="captcha">
       </div>
       <div class="card-footer">
         <button type="submit" name="submit" value="Submit" class="btn btn-success btn-lg btn-block">Ask</button>

@@ -12,6 +12,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask import (
     flash, g, redirect, render_template, request, url_for, Flask, send_from_directory, session
 )
+from flask_session_captcha import FlaskSessionCaptcha
 
 # Import random to shuffle distro list
 import random
@@ -48,6 +49,14 @@ app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 #app.config['SECRET_KEY'] = os.urandom(24)
+
+
+app.config['CAPTCHA_ENABLE'] = True
+app.config['CAPTCHA_LENGTH'] = 5
+app.config['CAPTCHA_WIDTH'] = 160
+app.config['CAPTCHA_HEIGHT'] = 60
+captcha = FlaskSessionCaptcha(app)
+
 
 
 swear_text = open("static/swear")
@@ -157,9 +166,12 @@ def ask():
             elif (len(result["name"]) > 25):
                 return render_template('ask.html', isaskactive="thickfont",message='Name lesser than 25 characters please', namevalue=result["name"], questionvalue=result["question"],isError=True)
             else:
-                cursor.execute("INSERT INTO questions (name,date,question,'ip address',ID,moderated,answered,category) VALUES (?,?,?,?,?,?,?,?)",(result['name'],datetime.datetime.now().strftime('%b/%d/%Y'),result['question'],request.environ.get('HTTP_X_REAL_IP', request.remote_addr),str(uuid.uuid4()),0,0,result["category"]))
-                db.commit()
-                return render_template('ask.html', isaskactive="thickfont",message="ASKED",isError=False, isFine=True)
+                if captcha.validate():
+                    cursor.execute("INSERT INTO questions (name,date,question,'ip address',ID,moderated,answered,category) VALUES (?,?,?,?,?,?,?,?)",(result['name'],datetime.datetime.now().strftime('%b/%d/%Y'),result['question'],request.environ.get('HTTP_X_REAL_IP', request.remote_addr),str(uuid.uuid4()),0,0,result["category"]))
+                    db.commit()
+                    return render_template('ask.html', isaskactive="thickfont",message="ASKED",isError=False, isFine=True)
+                else:
+                    return render_template('ask.html', isaskactive="thickfont",message='Captcha failed, try again', namevalue=result["name"], questionvalue=result["question"],isError=True)
         db.close()
     else:
         return render_template('ask.html', isaskactive="thickfont")
